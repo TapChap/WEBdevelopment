@@ -15,7 +15,6 @@ body{
 }
 
 #calculator{
-    font-family: Cursive;
     background-color: hsl(0, 0%, 15%);
     border-radius: 30px;
     max-width:530px;
