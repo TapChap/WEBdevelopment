@@ -1,35 +1,22 @@
-const counter = document.getElementById("counter");
-const clickbttn = document.getElementById("click");
-const resetbttn = document.getElementById("reset");
-const targetInput = document.getElementById("target");
-const submitbttn = document.getElementById("submit");
-const bestBoard=  document.getElementById("bestBoard");
+let grid = document.getElementsByClassName("shape"); // HTMLImg objects
+let turn = 'x';
+let title = document.getElementById("title");
 
-let startTime = Date.now();
-let targetClicks = 5, best = 0;
+function forEach(action){
+for (let element of Array.from(grid)) action(element);
+}
 
-clickbttn.onclick = function(){
-    counter.textContent = Number(counter.textContent) + 1;
-    if (counter.textContent == targetClicks) {
-        
-        let cps = targetClicks / ((Date.now() - startTime) / 1000);
-        if (cps > best) {
-            console.log(`New Best! ${best}`);
-            best = cps;
-            bestBoard.innerHTML = `CPS: ${Math.round(best)}`;
-        }
-        startTime= Date.now();
-        counter.textContent = 0;
+function getImg(index){
+    return grid.item(index);
+}
+
+function imgClicked(index){
+    console.log(index);
+    if (getImg(index).src.includes('empty.png')){
+        getImg(index).src = `${turn}.png`;
+        turn = turn == 'x'? 'o' : 'x';
+        title.textContent = `It's ${turn.toUpperCase()}'s turn`;
     }
 }
 
-resetbttn.onclick = function(){
-    counter.textContent = 0;
-    startTime= Date.now();
-}
-
-submitbttn.onclick = function(){
-    targetClicks = targetInput.value;
-    best = 0;
-    bestBoard.innerHTML = `best: ${Math.round(best)}`;
-}
+// forEach(img => img.src = 'x.png');
