@@ -10,7 +10,7 @@ function clearDisplay(){
 
 function calculate(){
     try {
-        display.value = eval(display.value);
+        display.value = eval(display.value).toFixed(2);
     } catch {
         display.value = "Error!"
         console.error("Sytax Error!")
