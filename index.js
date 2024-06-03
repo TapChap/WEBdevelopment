@@ -1,5 +1,63 @@
+class Pipe {
+    constructor(upperImg, lowerImg, xOffset){
+        this.upperImg = upperImg;
+        this.lowerImg = lowerImg;
+
+        this.x = xOffset;
+        this.y = 0;
+
+        this.updatePosition();
+    }
+
+    static step = 3;
+
+    static minHeightOffset = -200;
+    static maxHeightOffset = 200
+
+    updatePosition(){
+        this.upperImg.style.right = `${this.x}px`;
+        this.upperImg.style.top = `${this.y}px`;
+
+        this.lowerImg.style.right = `${this.x}px`;
+        this.lowerImg.style.bottom = `${-this.y}px`;
+    }
+
+    setPosition(x, y){
+        this.x = x;
+        this.y = y;
+    }
+
+    step(){
+        this.x += Pipe.step;
+        if (this.offScreen()) this.resetPosition();
+        
+        this.updatePosition();
+    }
+
+    resetPosition(){
+        this.setPosition(-this.upperImg.offsetWidth, this.randHeight());
+    }
+
+    offScreen(){
+        return this.x - this.upperImg.offsetWidth > window.innerWidth;
+    }
+
+    randHeight(){
+        return Math.floor(Math.random() * (Pipe.maxHeightOffset - Pipe.minHeightOffset + 1)) + Pipe.minHeightOffset;
+    }    
+}
+// end of pipe class ----------------------------------------------------------------------------------
+
 let bird = document.getElementById("bird");
-let pipes = document.getElementsByClassName("pipe");
+let pipeImgs = document.getElementsByClassName("pipe");
+
+let pipes = [];
+console.log(pipeImgs);
+
+for(let i = 0; i < pipeImgs.length; i += 2){
+    pipes[i] = new Pipe(pipeImgs.item(i), pipeImgs.item(i + 1),  -(window.innerWidth / pipeImgs.length) * i);
+}
+
 
 let birdY = window.innerHeight / 2;
 let birdVel = 0;
@@ -23,21 +81,8 @@ setInterval(() => { // main loop
     bird.style.transform = `rotate(${birdVel * 3}deg)`;
     setBirdLocation(window.innerWidth / 5, birdY);  
 
-    // pipes
-    for (let i = 0; i ++; i < pipes.length){
-        console.log(1);
-        let pipe = pipes.item(i);
-        let pipeX = pipe.style.right;
+    pipes.forEach(pipe => pipe.step());
 
-        // pipeX += pipeOffset;
-        // if (pipeX > window.innerWidth) {
-        //     pipeX = -pipe.offsetWidth;
-        //     pipeY = getRandNum(-200, 200);
-        // }
-
-    pipe.style.right = `${pipeX}px`;
-    pipe.style.top = `${pipeY}px`;
-}
 }, 20)
 
 
@@ -49,7 +94,3 @@ function setBirdLocation(x, y) {
     bird.style.left = `${x}px`;
     bird.style.top = `${y}px`;
 };
-
-function getRandNum(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}

@@ -22,6 +22,13 @@ body {
 .pipe{
     position: absolute;
     width: auto;
-    height: 100vh;
-    top: 0;
+    height: 35vh;
+}
+
+.upper {
+    top: -50px;
+}
+
+.lower {
+    bottom: -50px;
 }
