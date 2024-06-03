@@ -1,22 +1,56 @@
-let grid = document.getElementsByClassName("shape"); // HTMLImg objects
-let turn = 'x';
-let title = document.getElementById("title");
+let bird = document.getElementById("bird");
+let pipe = document.getElementById("pipe");
 
-function forEach(action){
-for (let element of Array.from(grid)) action(element);
-}
+let birdY = window.innerHeight / 2;
+let birdVel = 0;
+let jumpForce = -10, gravity = 0.5;
+let minVel = -20, maxVel = 20;
 
-function getImg(index){
-    return grid.item(index);
-}
+let pipeOffset = 7;
+let pipeX = 0;
+let pipey = innerHeight / 2;
+pipe.style.right = pipeX;
 
-function imgClicked(index){
-    console.log(index);
-    if (getImg(index).src.includes('empty.png')){
-        getImg(index).src = `${turn}.png`;
-        turn = turn == 'x'? 'o' : 'x';
-        title.textContent = `It's ${turn.toUpperCase()}'s turn`;
+document.addEventListener("keydown", keyDown => {
+    if (keyDown.key === "ArrowUp") {
+        if (birdVel > 0) birdVel = jumpForce;
+        else birdVel += jumpForce;
     }
+})
+
+setInterval(() => {
+    birdVel = clamp(birdVel + gravity, minVel, maxVel);
+    birdY = clamp(birdY + birdVel, 0, window.innerHeight - bird.offsetHeight);
+
+    if(birdY == 0) birdVel = 5;
+    if(birdY == window.innerHeight - bird.offsetHeight) birdVel = -10;
+
+    bird.style.transform = `rotate(${birdVel * 3}deg)`;
+    setBirdLocation(window.innerWidth / 5, birdY);  
+
+    // pipes
+    // if (pipeX > window.innerWidth - pipe.offsetWidth) pipeX += pipeOffset;
+    pipeX += pipeOffset;
+    if (pipeX > window.innerWidth) {
+        pipeX = -pipe.offsetWidth;
+        pipeY = getRandNum(-200, 200);
+    }
+
+    pipe.style.right = `${pipeX}px`;
+    pipe.style.top = `${pipeY}px`;
+
+}, 20)
+
+
+function clamp(val, min, max){
+    return Math.min(Math.max(val, min), max);
 }
 
-// forEach(img => img.src = 'x.png');
+function setBirdLocation(x, y) {
+    bird.style.left = `${x}px`;
+    bird.style.top = `${y}px`;
+};
+
+function getRandNum(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

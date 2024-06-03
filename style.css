@@ -1,40 +1,27 @@
-body{
-    background-color: hsl(0, 0%, 80%);
+html, body {
+    height: 100%;
     margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+body {
+    background-image: url("background.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+
+#bird {
+    position: absolute; /* Required to set coordinates */
+    pointer-events: none; /* So it doesn't block mouse events */
+    width: 103px;
+    height: 74px;
+}
+
+.pipe{
+    position: absolute;
+    width: auto;
     height: 100vh;
-}
-
-#tiles{
-    display: grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap: 0px;
-    width: min-content;
-}
-
-#tiles:hover{
-    cursor: pointer;
-}
-
-.vertical {
-    border: 3.5px solid #404040;
-    border-bottom: hsl(0, 0%, 80%);
-    border-top: hsl(0, 0%, 80%);
-}
- 
-.horizontal {
-    border: 3.5px solid #404040;
-    border-left: hsl(0, 0%, 80%);
-    border-right: hsl(0, 0%, 80%);
-}
-
-.center{
-    border: 3.5px solid #404040;
-}
-
-img{
-    max-width: 100px;
-    max-height: 100px;
+    top: 0;
 }
