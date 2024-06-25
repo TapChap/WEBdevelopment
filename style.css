@@ -1,34 +1,28 @@
-html, body {
-    height: 100%;
-    margin: 0;
-}
-
 body {
-    background-image: url("background.png");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    overflow: hidden;
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    background-color: black
 }
 
-
-#bird {
-    position: absolute; /* Required to set coordinates */
-    pointer-events: none; /* So it doesn't block mouse events */
-    width: 103px;
-    height: 74px;
+#game-board {
+    background-color: #ccc;
+    width: 100vmin;
+    height: 100vmin;
+    display: grid;
+    grid-template-columns: repeat(21, 1fr);
+    grid-template-rows: repeat(21, 1fr);
 }
 
-.pipe{
-    position: absolute;
-    width: auto;
-    height: 35vh;
+.snake {
+    background-color: hsl(200, 100%, 50%);
+    border: .25vmin solid black;
 }
 
-.upper {
-    top: -50px;
-}
-
-.lower {
-    bottom: -50px;
+.apple {
+    background-color: hsl(0, 100%, 50%);
+    border: .25vmin solid black;
 }
